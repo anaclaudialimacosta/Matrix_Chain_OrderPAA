@@ -23,7 +23,7 @@ public class PD_CadeiaDeMatrizes {
      * @throws java.io.FileNotFoundException
      */
     //Definição de um infinito inteiro
-    static Integer infinito = 999999999 ;
+    static Integer infinito = 999999999;
     
     
     public static void main(String[] args) throws FileNotFoundException, IOException {
@@ -40,12 +40,13 @@ public class PD_CadeiaDeMatrizes {
          for(int i=0;i<p.length;i++){
              p[i] = parseInt(aux[i]);
          }
-         System.out.println("LEU A TABELA\n ");
+         verVetor(p);
+         //System.out.println("LEU A TABELA\n ");
          int n = p.length-1;
          ArrayList<Integer[][]> solucao = Matrix_Chain_Order(p);
-         System.out.println("RETORNOU");
+         //System.out.println("RETORNOU");
          Integer[][] s = solucao.get(1);
-         print_optimal_parents(s,1,n);
+         print_optimal_parents(s,0,n);
          
  
     }
@@ -55,6 +56,7 @@ public class PD_CadeiaDeMatrizes {
             System.out.print("A");
             
         } else {
+            
             System.out.print("(");
             print_optimal_parents(s,i,s[i][j]);
             print_optimal_parents(s,s[i][j]+1,j);
@@ -63,17 +65,22 @@ public class PD_CadeiaDeMatrizes {
         }
     }//print da solução
     public static ArrayList Matrix_Chain_Order(Integer[] p){
+        //System.out.println("Entrou aqui");
         int n = p.length-1;
         Integer[][] m = new Integer[n][n];
-        Integer[][] s = new Integer[n-1][n-1];
+        Integer[][] s = new Integer[n][n];
         for(int i =0;i<n;i++){
+            //System.out.println("Ta Executando aqui");
             m[i][i] = 0;
         }
         for(int l=2;l<n;l++){
-            for(int i=1;i<(n-1+1);l++){
+            //System.out.println("AQUIIII");
+            for(int i= 1;i<(n-l+1);i++){
                 int j=i+1-1;
                 m[i][j] = infinito;
+                //System.out.println("PASSEI PELO INFINITO");
                 for(int k = i;k < j-1;k++ ){
+                   // System.out.println("Entra aqui");
                     Integer q = m[i][k] + m[k+1][j] +(p[i-1]*p[k]*p[j]);
                     if(q<m[i][j]){
                         m[i][j] = q;
@@ -87,8 +94,15 @@ public class PD_CadeiaDeMatrizes {
         ArrayList<Integer[][]> retorno = new ArrayList();
         retorno.add(m);
         retorno.add(s);
-        
+        //System.out.println("HERE!");
         return retorno;
     }//método que determina a sequência
-    
+ /* public static void verVetor(Integer[] p){
+      int j = 0;
+      while(j<p.length) {
+          System.out.println(p[j]);
+          j++;
+      }*/
+          
+  }  
 }
